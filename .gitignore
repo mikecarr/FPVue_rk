@@ -59,3 +59,5 @@ cmake_install.cmake
 Makefile
 
 .vscode/
+
+build

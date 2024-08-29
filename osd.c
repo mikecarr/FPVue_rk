@@ -135,6 +135,26 @@ void modeset_paint_buffer(struct modeset_buf *buf) {
 			cairo_move_to(cr, osd_x+25, stats_top_margin+stats_row_height*row_count);
 			cairo_show_text(cr, msg);
 		}
+
+		// Recording
+		if (osd_vars.enable_recording) {
+			
+			// Sets the source pattern within cr to a translucent color. This color will then be used for any subsequent drawing operation until a new source pattern is set.
+			// did not change anything
+			cairo_set_source_rgba (cr, 255.0, 255.0, 255.0, 1);
+			sprintf(msg, "Recording");
+			
+			row_count++;
+
+			// This is a convenience function for creating a pattern from surface and setting it as the source in cr with cairo_set_source().
+			cairo_set_source_surface (cr, lat_icon, osd_x+22, stats_top_margin+row_count*stats_row_height-19);
+			cairo_paint (cr);
+			// set to red font
+			cairo_set_source_rgba (cr, 255.0, 0.0, 0.0, 1);
+			// Begin a new sub-path. After this call the current point will be (x, y)
+			cairo_move_to(cr, osd_x+60, stats_top_margin+stats_row_height*row_count);
+			cairo_show_text(cr, msg);
+		}
 	}
 
 	if (!osd_vars.enable_telemetry){
