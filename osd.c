@@ -28,6 +28,7 @@ double getTimeInterval(struct timespec* timestamp, struct timespec* last_meansur
 cairo_surface_t *fps_icon;
 cairo_surface_t *lat_icon;
 cairo_surface_t* net_icon;
+cairo_surface_t* sdcard_icon;
 
 pthread_mutex_t osd_mutex;
 
@@ -146,19 +147,19 @@ void modeset_paint_buffer(struct modeset_buf *buf) {
 			// did not change anything
 			cairo_set_source_rgba (cr, 255.0, 255.0, 255.0, 1);
 			sprintf(msg, "Recording");
-			
-			
+						
 			row_count++;
-
 			// This is a convenience function for creating a pattern from surface and setting it as the source in cr with cairo_set_source().
 			// if when we have an icon
-			//cairo_set_source_surface (cr, lat_icon, osd_x+22, stats_top_margin+row_count*stats_row_height-19);
-			//cairo_paint (cr);
-			// set to red font
+			cairo_set_source_surface (cr, sdcard_icon, osd_x+22, stats_top_margin+row_count*stats_row_height-19);
+			cairo_paint (cr);
+
+			// // set to red font
 			cairo_set_source_rgba (cr, 255.0, 0.0, 0.0, 1);
+
 			// Begin a new sub-path. After this call the current point will be (x, y)
-			cairo_move_to(cr, osd_x+25, stats_top_margin+stats_row_height*row_count);
-			cairo_show_text(cr, msg);
+			cairo_move_to (cr, osd_x+60, stats_top_margin+stats_row_height*row_count);
+			cairo_show_text (cr, msg);
 		}
 	}
 
@@ -369,6 +370,7 @@ void *__OSD_THREAD__(void *param) {
 	fps_icon = surface_from_embedded_png(framerate_icon, framerate_icon_length);
 	lat_icon = surface_from_embedded_png(latency_icon, latency_icon_length);
 	net_icon = surface_from_embedded_png(bandwidth_icon, bandwidth_icon_length);
+	sdcard_icon = surface_from_embedded_png(sdcard_white_icon, sdcard_white_icon_length);
 
 	int ret = pthread_mutex_init(&osd_mutex, NULL);
 	assert(!ret);
